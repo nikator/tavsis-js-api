@@ -1,0 +1,41 @@
+{
+  "name": "viewmanager-js",
+  "version": "0.0.1",
+  "description": "Small view manager for Javascript to manage view of choosen DOM element. It splits view to top-left, top-right, center-left, center, center-right, bottom-left, bottom-right areas.",
+  "main": "dist/viewmanager.debug.js",
+  "scripts": {
+    "start": "ws",
+    "build": "npm install && bower install && node build.js",
+    "version": "npm run build && git add -A dist"
+  },
+  "files": [
+    "dist/viewmanager.debug.js",
+    "dist/viewmanager.min.js",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikator/viewmanager-js.git"
+  },
+  "keywords": [
+    "viewmanager-js",
+    "npm",
+    "module",
+    "node",
+    "javascript"
+  ],
+  "author": "Mantas Bukauskas <ingenium3@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikator/viewmanager-js/issues"
+  },
+  "homepage": "https://github.com/nikator/viewmanager-js",
+  "devDependencies": {
+    "uglify-js": "^2.6.2"
+  },
+  "dependencies": {
+  },
+  "directories": {
+    "example": "examples"
+  }
+}

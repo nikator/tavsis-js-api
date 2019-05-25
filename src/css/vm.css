@@ -1,0 +1,67 @@
+.vm-ui {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	right: 15px;
+	bottom: 30px;
+	box-sizing: border-box;
+	pointer-events: none;
+	overflow: hidden;
+}
+.vm-ui-top-left {
+	align-items: flex-start;
+	flex-flow: column;
+	top: 0;
+	left: 0;
+	position: absolute;
+	display: flex;
+}
+.vm-ui-top-right {
+	align-items: flex-end;
+	flex-flow: column;
+	top: 0;
+	right: 0;
+	position: absolute;
+	display: flex;
+}
+
+.vm-ui-center-left {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+}
+
+.vm-ui-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.vm-ui-center-right {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+}
+
+.vm-ui-bottom-left {
+	align-items: flex-start;
+	flex-flow: column;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	display: flex;
+}
+.vm-ui-bottom-right {
+	align-items: flex-start;
+	flex-flow: column;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	display: flex;
+}
