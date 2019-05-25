@@ -1,4 +1,4 @@
-#ViewManager JS
+# ViewManager JS
 
 **Manages layout of any DOM element from JavaScript**
 
