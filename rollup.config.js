@@ -2,6 +2,7 @@ const rollupResolve = require('rollup-plugin-node-resolve');
 const rollupBabel = require('rollup-plugin-babel');
 const buble = require('rollup-plugin-buble');
 const sizes = require('rollup-plugin-sizes');
+const postcss = require('rollup-plugin-postcss');
 
 
 // Rollup removes local variables unless used within a module.
@@ -34,6 +35,9 @@ module.exports = {
 	input: './src/index.js',
 	plugins: [
 		rollupResolve(),
+		postcss({
+			extensions: [ '.css' ],
+		}),
 		rawjs({
 		'viewmanager.js': 'viewManager'
 		}),
