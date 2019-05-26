@@ -1,74 +1,78 @@
-var fs = require('fs');
-var rollup = require('rollup');
+/* eslint-disable no-empty */
+/* eslint-disable no-console */
+'use strict'
+
+var fs = require('fs')
+const rollup = require('rollup');
+const rollupConfig = require('./rollup.config');
 var uglify = require('uglify-js');
-var babel = require('rollup-plugin-babel');
 var execSync = require('child_process').execSync;
 
 bundle({
-    minified: 'dist/viewmanager.min.js',
-    debug: 'dist/viewmanager.debug.js'
+    distFolder: 'dist',
+    config: './build.browser.conf.js',
+    minify: true,
+    format: 'umd',
+    context: 'window',
+    filename: 'viewmanager'
 });
 
-// Rollup removes local variables unless used within a module.
-// This plugin makes sure specified local variables are preserved 
-// and kept local. This plugin wouldn't be necessary if es2015
-// modules would be used.
-function rawjs(opts) {
-    opts = opts || {};
-    return {
-        transform: function (code, id) {
-            var variable = opts[id.split('/').pop()];
-            if (!variable) return code;
+function bundle(options) {
+  console.log('Start Bundling ' + options.distFolder + '/' + options.filename + '.debug.js');
+  rollup.rollup({
+    input: options.config,
+    context: options.context,
+    plugins: rollupConfig.plugins,
+  }).then((bundle) => {
+    return bundle.generate({
+      format: options.format,
+      name: 'viewmanager'
+    })
+  }).then(output => {
+    let code = output['output'][0].code;
+    code = code.replace(
+      /Permission\s+is\s+hereby\s+granted[\S\s]+?IN\s+THE\s+SOFTWARE\./,
+      'Licensed under the MIT License'
+    );
+    code = code.replace(
+      /Permission\s+is\s+hereby\s+granted[\S\s]+?IN\s+THE\s+SOFTWARE\./g,
+      ''
+    )
 
-            var keepStr = '/*rollup-keeper-start*/window.tmp=' + variable + ';/*rollup-keeper-end*/';
-            return code + keepStr;
-        },
-        transformBundle: function (code) {
-            for (var file in opts) {
-                var r = new RegExp(opts[file] + '\\$\\d+', 'g');
-                code = code.replace(r, opts[file]);
-            }
-            var re = /\/\*rollup-keeper-start\*\/.*\/\*rollup-keeper-end\*\//g;
-            return code.replace(re, '');
+    code = renew(code);
+
+    code = code + "\ntry {\nmodule.exports = viewmanager;\n}\ncatch (e) {}\n";
+    fs.writeFileSync(options.distFolder + '/' + options.filename + '.debug.js', code)
+
+    console.log('Finish Bundling ' + options.distFolder + '/' + options.filename + '.debug.js');
+    if (options.minify === true) {
+
+      console.log('Minifiying ' + options.distFolder + '/' + options.filename + '.debug.js to ' + options.filename + '.min.js');
+      var minified = uglify.minify(code, {
+        output: {
+          comments: /@preserve|@license|copyright/i
         }
+      })
+      fs.writeFileSync(options.distFolder + '/' + options.filename + '.min.js', minified.code)
     }
-}
-
-function bundle(paths) {
-    rollup.rollup({
-        entry: './src/index.js',
-        plugins: [
-            monkeyPatch(),
-            rawjs({
-                'viewmanager.js': 'viewmanager'
-            }),
-            babel({
-                presets: ['es2015-rollup'],
-                exclude: ['node_modules/**', 'libs/**']
-            })
-        ]
-    }).then(function (bundle) {
-        var code = bundle.generate({format: 'umd', moduleName: 'viewmanager'}).code;
-        code = code.replace(/Permission\s+is\s+hereby\s+granted[\S\s]+?IN\s+THE\s+SOFTWARE\./, 'Licensed under the MIT License');
-        code = code.replace(/Permission\s+is\s+hereby\s+granted[\S\s]+?IN\s+THE\s+SOFTWARE\./g, '');
-        fs.writeFileSync(paths.debug, renew(code));
-
-        var minified = uglify.minify(code, {fromString: true, output: {comments: /@preserve|@license|copyright/i}});
-        fs.writeFileSync(paths.minified, renew(minified.code));
-    }).catch(function (err) {
-        console.error(err);
-    });
+  }).catch((err) => {
+    console.error(err)
+  })
 }
 
 function renew(code) {
-    var date = new Date().toISOString();
-    var version = require('./package.json').version;
-    var whoami = execSync('whoami').toString().trim();
-    var commit = execSync('git rev-parse --short=10 HEAD').toString().trim();
-
-    code = code.replace('${versionID}', version + ' Built on ' + date);
-    code = code.replace('${commitID}', commit);
-    code = code.replace(/1\.0\.0-trunk/, version + ' ' + date + ':' + whoami);
-
-    return code;
+  var date = new Date().toISOString();
+  var version = require('./package.json').version;
+  var whoami = 'anonymous';
+  var commit = '00000000';
+  try {
+    commit = execSync('git rev-parse --short=10 HEAD').toString().trim();
+    whoami = execSync('whoami').toString().trim();
+  } catch (e) { }
+  code = code.replace(/viewmanager.version = '0.0.0'/g, "viewmanager.version = '" + version + "'");
+  code = code.replace(/\$\{builtOn\}/g, date);
+  code = code.replace(/\$\{versionID\}/g, version);
+  code = code.replace('${commitID}', commit);
+  code = code.replace(/0\.0\.1-trunk/, version + ' ' + date + ':' + whoami);
+  return code;
 }

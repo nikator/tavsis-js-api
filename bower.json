@@ -1,0 +1,32 @@
+{
+  "name": "viewmanager-js",
+  "homepage": "https://github.com/nikator/viewmanager-js",
+  "description": "Manages layout of any DOM element from JavaScript",
+  "main": "dist/viewmanager.debug.js",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+		"viewmanager",
+		"viewmanager-js",
+		"npm",
+    "module",
+    "node",
+    "javascript"
+	],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "libs",
+    "CNAME",
+    "jspdf.js",
+    "examples/jspdf.PLUGINTEMPLATE.js",
+    "plugins/*",
+    "todo.txt",
+    "wscript.py",
+    "build.sh",
+    "test",
+    "tools"
+  ]
+}

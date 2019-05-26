@@ -25,23 +25,23 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-
-/**
- * Creates new ViewManager object instance.
- *
- * @class
- * @param container Container which view needs to be managed (DOM element or Id)
- * @returns {viewManager}
- * @name viewManager
- */
 var ViewManager = (function (global) {
   'use strict';
   var constants = {};
 
   /**
+   * Creates new ViewManager object instance.
+   * @name viewManager
+   * @class
+   * @param container Container which view needs to be managed (DOM element or Id)
+   * @returns {viewManager} ViewManager instance
+   * @description
+   * ```
+   * {
+   * }
+   * ```
    * @constructor
-   * @private
-   */
+  */
   function viewManager(container) {
       var options = {};
 
@@ -54,105 +54,142 @@ var ViewManager = (function (global) {
       if (!!!container) {
         throw new Error("VM: Failed to get container.");
       }
-      var API = {},
-        ui,
+
+      var API = {
+        __private__: {}
+      };
+
+      var ui,
         tl,
         tr,
         cl,
         c,
         cr,
         bl,
-        br,
-        _initContainers = function () {
-          ui = document.createElement("DIV");
-          container.appendChild(ui);
-          ui.className = "vm-ui";
+        br;
 
-          tl = document.createElement("DIV");
-          tl.className = "vm-ui-top-left";
-          //tl.innerHTML = "TL";
-          ui.appendChild(tl);
-          
-          tr = document.createElement("DIV");
-          tr.className = "vm-ui-top-right";
-          //tr.innerHTML = "TR";
-          ui.appendChild(tr);
+      var initContainers = API.__private__.initContainers = function () {
+        ui = document.createElement("DIV");
+        container.appendChild(ui);
+        ui.className = "vm-ui";
 
-          cl = document.createElement("DIV");
-          cl.className = "vm-ui-center-left";
-          //cl.innerHTML = "CL";
-          ui.appendChild(cl);
+        tl = document.createElement("DIV");
+        tl.className = "vm-ui-top-left";
+        //tl.innerHTML = "TL";
+        ui.appendChild(tl);
+        
+        tr = document.createElement("DIV");
+        tr.className = "vm-ui-top-right";
+        //tr.innerHTML = "TR";
+        ui.appendChild(tr);
 
-          c = document.createElement("DIV");
-          c.className = "vm-ui-center";
-          //c.innerHTML = "C";
-          ui.appendChild(c);
+        cl = document.createElement("DIV");
+        cl.className = "vm-ui-center-left";
+        //cl.innerHTML = "CL";
+        ui.appendChild(cl);
 
-          cr = document.createElement("DIV");
-          cr.className = "vm-ui-center-right";
-          //cr.innerHTML = "CR";
-          ui.appendChild(cr);
+        c = document.createElement("DIV");
+        c.className = "vm-ui-center";
+        //c.innerHTML = "C";
+        ui.appendChild(c);
 
-          bl = document.createElement("DIV");
-          bl.className = "vm-ui-bottom-left";
-          //bl.innerHTML = "BL";
-          ui.appendChild(bl);
+        cr = document.createElement("DIV");
+        cr.className = "vm-ui-center-right";
+        //cr.innerHTML = "CR";
+        ui.appendChild(cr);
 
-          br = document.createElement("DIV");
-          br.className = "vm-ui-bottom-right";
-          //br.innerHTML = "BR";
-          ui.appendChild(br);
-        },
-        _getElementByPosition = function (position) {
-          var el = null;
-          switch (position) {
-            case "top-left":
-              el = tl;
-              break;
-            case "top-right":
-              el = tr;
-              break;
-            case "center-left":
-              el = cl;
-              break;
-            case "center":
-              el = c;
-              break;
-            case "center-right":
-              el = cr;
-              break;
-            case "bottom-left":
-              el = bl;
-              break;
-            case "bottom-right":
-              el = br;
-              break;
-            default:
-              throw new Error("VM: View element was not found with position " + position);
-          }
-          return el;
-        };
-      _initContainers();
+        bl = document.createElement("DIV");
+        bl.className = "vm-ui-bottom-left";
+        //bl.innerHTML = "BL";
+        ui.appendChild(bl);
 
+        br = document.createElement("DIV");
+        br.className = "vm-ui-bottom-right";
+        //br.innerHTML = "BR";
+        ui.appendChild(br);
+      };
+
+      var getElementByPosition = API.__private__.getElementByPosition = function (position) {
+        var el = null;
+        switch (position) {
+          case "top-left":
+            el = tl;
+            break;
+          case "top-right":
+            el = tr;
+            break;
+          case "center-left":
+            el = cl;
+            break;
+          case "center":
+            el = c;
+            break;
+          case "center-right":
+            el = cr;
+            break;
+          case "bottom-left":
+            el = bl;
+            break;
+          case "bottom-right":
+            el = br;
+            break;
+          default:
+            throw new Error("VM: View element was not found with position " + position);
+        }
+        return el;
+      };
+
+      API.__private__.initContainers();
+    /**
+     * @name add
+     * @memberof viewManager#
+     * @function
+     * @instance
+     * @param {Object} managedEl
+     * @param {string} position
+     * @returns {viewManager}
+     */
       API.add = function(managedEl, position) {
         var el = _getElementByPosition(position);
-        el.appendChild(managedEl)
-      }
-
+        el.appendChild(managedEl);
+        return this;
+      };
+    /**
+     * @name move
+     * @memberof viewManager#
+     * @function
+     * @instance
+     * @param {Object} managedEl
+     * @param {string} position
+     * @returns {viewManager}
+     */
       API.move = function(managedEl, position) {
         API.add(managedEl, position);
-      }
-
+      };
+    /**
+     * @name empty
+     * @memberof viewManager#
+     * @function
+     * @instance
+     * @param {string} position
+     * @returns {Element}
+     */
       API.empty = function (position) {
         var el = _getElementByPosition(position);
         while (el.firstChild) {
           el.removeChild(el.firstChild);
         }
-      }
+        return el;
+      };
 
     return API;
   }
-
+  /**
+   * The version of viewManager-js.
+   * @name version
+   * @type {string}
+   * @memberof viewManager#
+   */
   viewManager.version = "0.0.1-trunk";
 
   if (typeof define === 'function' && define.amd) {
