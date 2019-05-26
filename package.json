@@ -39,6 +39,7 @@
     "@babel/preset-env": "^7.4.3",
     "babel-plugin-rewire-exports": "1.0.1",
     "gulp-babel": "^8.0.0",
+    "docdash": "1.1.0",
     "folder-delete": "1.0.4",
     "jsdoc": "3.6.0",
     "local-web-server": "2.6.1",
