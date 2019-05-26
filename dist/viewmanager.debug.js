@@ -6,7 +6,7 @@
   /** @preserve
    * ViewManager JS - ViewManager for JavaScript
    * Version 0.0.6
-   *                           CommitID 245af192e9
+   *                           CommitID 429e8af950
    *
    * Copyright (c) 2019 Mantas Bukauskas <ingenium3@gmail.com>
    *
@@ -116,7 +116,7 @@
         return el;
       };
 
-      API.__private__.initContainers();
+      initContainers();
       /**
        * @name add
        * @memberof viewManager#
@@ -127,10 +127,8 @@
        * @returns {viewManager}
        */
 
-
       API.add = function (managedEl, position) {
-        var el = _getElementByPosition(position);
-
+        var el = getElementByPosition(position);
         el.appendChild(managedEl);
         return this;
       };
@@ -159,7 +157,7 @@
 
 
       API.empty = function (position) {
-        var el = _getElementByPosition(position);
+        var el = getElementByPosition(position);
 
         while (el.firstChild) {
           el.removeChild(el.firstChild);
@@ -178,7 +176,7 @@
      */
 
 
-    viewManager.version = "0.0.6 2019-05-26T02:28:35.836Z:hnit-baltic\mbukauskas";
+    viewManager.version = "0.0.6 2019-05-26T02:32:23.979Z:hnit-baltic\mbukauskas";
 
     if (typeof define === 'function' && define.amd) {
       define('ViewManager', function () {
