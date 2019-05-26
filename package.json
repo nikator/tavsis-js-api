@@ -1,6 +1,6 @@
 {
   "name": "viewmanager-js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Manages layout of any DOM element from JavaScript",
   "main": "dist/viewmanager.min.js",
   "scripts": {
