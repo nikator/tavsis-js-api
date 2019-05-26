@@ -9,6 +9,7 @@ Feel free to contact me from [issues page](https://github.com/nikator/viewmanage
 See examples/basic.html. 
 
 ```javascript
+
 var body = document.getElementsByTagName("BODY")[0];
 var vm = new ViewManager(body);
 var el = document.createElement("DIV");

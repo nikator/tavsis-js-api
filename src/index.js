@@ -139,7 +139,7 @@ var ViewManager = (function (global) {
         return el;
       };
 
-      API.__private__.initContainers();
+      initContainers();
     /**
      * @name add
      * @memberof viewManager#
@@ -150,7 +150,7 @@ var ViewManager = (function (global) {
      * @returns {viewManager}
      */
       API.add = function(managedEl, position) {
-        var el = _getElementByPosition(position);
+        var el = getElementByPosition(position);
         el.appendChild(managedEl);
         return this;
       };
@@ -175,7 +175,7 @@ var ViewManager = (function (global) {
      * @returns {Element}
      */
       API.empty = function (position) {
-        var el = _getElementByPosition(position);
+        var el = getElementByPosition(position);
         while (el.firstChild) {
           el.removeChild(el.firstChild);
         }
