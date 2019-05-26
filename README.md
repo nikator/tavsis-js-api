@@ -18,6 +18,9 @@ vm.add(el, "center");
 ## Contributing
 Build the library with `npm run build`. This will fetch all dependencies and then compile the `dist` files. To see the examples locally you can start a web server with `npm start` and go to `localhost:8000`. 
 
+## Installation
+Install library with `npm install viewmanager-js`.
+
 ## Credits
 
 ## License (MIT)

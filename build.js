@@ -19,6 +19,7 @@ bundle({
 
 function bundle(options) {
   console.log('Start Bundling ' + options.distFolder + '/' + options.filename + '.debug.js');
+  fs.writeFileSync(options.distFolder + '/css/vm.css', './src/css/vm.css')
   rollup.rollup({
     input: options.config,
     context: options.context,

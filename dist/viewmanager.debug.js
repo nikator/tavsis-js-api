@@ -6,7 +6,7 @@
   /** @preserve
    * ViewManager JS - ViewManager for JavaScript
    * Version 0.0.1
-   *                           CommitID b50edd4152
+   *                           CommitID 6c65689bd7
    *
    * Copyright (c) 2019 Mantas Bukauskas <ingenium3@gmail.com>
    *
@@ -178,7 +178,7 @@
      */
 
 
-    viewManager.version = "0.0.1 2019-05-26T00:28:16.121Z:hnit-baltic\mbukauskas";
+    viewManager.version = "0.0.1 2019-05-26T01:53:33.532Z:hnit-baltic\mbukauskas";
 
     if (typeof define === 'function' && define.amd) {
       define('ViewManager', function () {

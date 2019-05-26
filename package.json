@@ -13,6 +13,7 @@
   "files": [
     "dist/viewmanager.debug.js",
     "dist/viewmanager.min.js",
+    "dist/css/viewmanager.min.js",
     "README.md"
   ],
   "repository": {
